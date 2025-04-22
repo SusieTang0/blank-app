@@ -1,5 +1,6 @@
 import json
 import streamlit as st
+from xgboost import XGBClassifier
 
 st.title("左右布局示例")
 
@@ -69,4 +70,11 @@ with st.form(key='claim_form'):
 # 提交后的处理
 
 if claim_submitted:
-      st.success(f"Amount Reimbursed={amount_reimbursed}\r\rAttending Physician={attending_physician}\r\rOperating Physician={operating_physician}\r\rOperating Provider={provider}")
+      xgb_model = XGBClassifier()
+      xgb_model.load_model("xgb_model_op.json")
+      y_pred_prob = xgb_model.predict_proba(X_test)[:, 1]
+
+      # 如果你有 threshold
+      threshold = 0.5631  # 自定义的
+      y_pred = (y_pred_prob > threshold).astype(int)
+     
