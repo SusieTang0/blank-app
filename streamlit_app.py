@@ -188,11 +188,17 @@ if st.session_state.page == "Benificiary":
             'rheumatoidarthritis': 0,
             'stroke': 0
         }
-
-
+ 
+        charlson_index=0
         for disease in selected_diseases:
             encoded_ChronicCond_mapping[disease] = 1
-
+            if(disease=="KidneyDisease" | disease=="Cancer" ):
+              charlson_index+=2
+            elif(disease=="Osteoporasis"|disease=="Depression" ):
+              charlson_index+=0
+            else:
+              charlson_index+=1  
+                
         encoded_alzheimer = encoded_ChronicCond_mapping['Alzheimer']
         encoded_heartfailure = encoded_ChronicCond_mapping['Heartfailure']
         encoded_kidneydisease = encoded_ChronicCond_mapping['KidneyDisease']
@@ -407,6 +413,7 @@ elif st.session_state.page == "Fraud":
                 index=0, 
                 horizontal=True 
             )
+    
     default_encoded_diagnosis_codes: list[str]=[""] * 10
     default_encoded_attending_physician=0
     default_encoded_operating_physician=0
@@ -468,6 +475,7 @@ elif st.session_state.page == "Fraud":
         encoded_other_physician = loaded_mapping_datas["OtherPhysician"][other_physician]
         encoded_provider = loaded_mapping_datas["Provider"][provider]
 
+   
         encoded_diagnosis_codes = [loaded_mapping_diagnosis.get("NaN")] * 10
         new_encode = len(diagnosis_label_list) + 1 
         for i in range(min(len(diagnosis_codes), 10)):
