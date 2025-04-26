@@ -369,6 +369,14 @@ elif st.session_state.page == "Fraud":
                 index=0, 
                 horizontal=True 
             )
+    default_encoded_diagnosis_codes: list[int]=[0] * 10
+    default_encoded_attending_physician=0
+    default_encoded_operating_physician=0
+    default_encoded_operating_physician=0
+    default_encoded_diagnosis_codes=[0,0,0,0,0,0,0,0,0,0]
+    default_claim_days=0
+    default_encoded_provider=0
+    default_amount_reimbursed=0
     sample = st.selectbox('Choose the sample you want to use:', ['No sample','Sample 1','Sample 2'], index=0)
     if(sample == 'Sample 1'):
         claim_days = 1
@@ -378,7 +386,14 @@ elif st.session_state.page == "Fraud":
         other_physician = "Unknown"
         diagnosis_codes = ["655",'5921','28521','5939','5989']
         provider = 'PRV54936'
-        st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
+        # st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
+        default_encoded_attending_physician=2228
+        default_encoded_operating_physician=559
+        default_encoded_operating_physician=2368
+        default_encoded_diagnosis_codes=[1230,338,1193,1213,2203,2186,2142,2093,1950,852]
+        default_claim_days=1
+        default_encoded_provider=972
+        default_amount_reimbursed=8000
     elif(sample == 'Sample 2'):
         claim_days = 12
         amount_reimbursed = 500
@@ -387,7 +402,17 @@ elif st.session_state.page == "Fraud":
         other_physician = "PHY396473"
         diagnosis_codes = ["7237"]
         provider = 'PRV56011'
-        st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
+        # st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
+         
+        
+        default_encoded_attending_physician=61293
+        default_encoded_operating_physician=28532
+        default_encoded_operating_physician=30983
+        default_encoded_diagnosis_codes=[6411,4475,3918,3455,2988,2591,2287,1962,1622,431]
+        default_claim_days=1
+        default_encoded_provider=3726
+        default_amount_reimbursed=500
+        
     with st.form(key='claim_form'):
         if(in_hospital=="Inpatient"):
             claim_days = st.number_input("Duration of the Claim (in days)", min_value=0, value=0)
@@ -398,7 +423,7 @@ elif st.session_state.page == "Fraud":
             other_physician = st.selectbox("Other Physician", other_physician_label_list)
             diagnosis_codes = [] 
             for i in range(st.session_state.input_count):
-                diagnosis_code = st.selectbox(f"Diagnosis code {i + 1}",diagnosis_code_label_list[i])
+                diagnosis_code = st.selectbox(f"Diagnosis code {i + 1}",diagnosis_code_label_list[i],index=default_encoded_diagnosis_codes[i])
                 if(diagnosis_code):
                   diagnosis_codes.append(diagnosis_code)
         elif(in_hospital=="Outpatient"):
@@ -499,7 +524,7 @@ elif st.session_state.page == "Fraud":
             'DiagnosisCode_group_String_Label_Encoded':[0],
             'ClaimCompletedSameDay':[1],
             'Provider_Label_Encoded':[3726],
-            'InscClaimAmtReimbursed':[0],
+            'InscClaimAmtReimbursed':[500],
         })
 
         if claim_submitted:
@@ -545,7 +570,7 @@ elif st.session_state.page == "Fraud":
                 'DiagnosisCode_group_String_Label_Encoded':[0],
                 'TimeforCLAIM':[1],
                 'Provider_Label_Encoded':[972],
-                'InscClaimAmtReimbursed':[0],
+                'InscClaimAmtReimbursed':[20],
             })
              
         if claim_submitted:
