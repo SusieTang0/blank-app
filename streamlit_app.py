@@ -111,7 +111,7 @@ if st.session_state.page == "Benificiary":
         default_encoded_renal_disease_indicator = 0
         default_encoded_part_a_month = 12
         default_encoded_part_b_month = 12
-        default_encoded_selected_diseases=[1,0,1,0,0,1,1,1,0,1,1,1]
+        default_encoded_selected_diseases=['Alzheimer', 'KidneyDisease', 'Depression','Diabetes','IschemicHeart','rheumatoidarthritis','stroke']
         charlson_index = 7
     elif(sample == 'Sample 2'):
         age = "90-94"
@@ -134,7 +134,7 @@ if st.session_state.page == "Benificiary":
         default_encoded_renal_disease_indicator = 0
         default_encoded_part_a_month = 12
         default_encoded_part_b_month = 12
-        default_encoded_selected_diseases=[1,1,1,0,1,0,1,0,1,1,1,0,1]
+        default_encoded_selected_diseases=['Alzheimer','Heartfailure', 'KidneyDisease', 'ObstrPulmonary','Diabetes','IschemicHeart','Osteoporasis','stroke']
         charlson_index = 8   
     # create two columns
     left_col, right_col = st.columns(2)
@@ -419,7 +419,7 @@ elif st.session_state.page == "Fraud":
         default_encoded_attending_physician=2228
         default_encoded_operating_physician=559
         default_encoded_operating_physician=2368
-        default_encoded_diagnosis_codes=[1230,338,1193,1213,2203,2186,2142,2093,1950,852]
+        default_encoded_diagnosis_codes= ["655",'5921','28521','5939','5989']
         default_claim_days=1
         default_encoded_provider=972
         default_amount_reimbursed=8000
@@ -436,7 +436,7 @@ elif st.session_state.page == "Fraud":
         default_encoded_attending_physician=61293
         default_encoded_operating_physician=28532
         default_encoded_operating_physician=30983
-        default_encoded_diagnosis_codes=[6411,4475,3918,3455,2988,2591,2287,1962,1622,431]
+        default_encoded_diagnosis_codes=["7237"]
         default_claim_days=1
         default_encoded_provider=3726
         default_amount_reimbursed=500
