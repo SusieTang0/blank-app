@@ -192,9 +192,9 @@ if st.session_state.page == "Benificiary":
         charlson_index=0
         for disease in selected_diseases:
             encoded_ChronicCond_mapping[disease] = 1
-            if(disease=="KidneyDisease" | disease=="Cancer" ):
+            if(disease=="KidneyDisease" or disease=="Cancer" ):
               charlson_index+=2
-            elif(disease=="Osteoporasis"|disease=="Depression" ):
+            elif(disease=="Osteoporasis" or disease=="Depression" ):
               charlson_index+=0
             else:
               charlson_index+=1  
