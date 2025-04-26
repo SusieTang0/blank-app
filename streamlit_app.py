@@ -143,17 +143,17 @@ if st.session_state.page == "Benificiary":
         st.write("Please enter patient information here")
        
         with st.form(key='patient_form'):
-              age = st.selectbox('Age', age_label_list, index=default_encoded_age)
-              race = st.selectbox('Race', race_label_list, index=default_encoded_race)
-              gender = st.selectbox("Gender", ["Male", "Female"],index=default_encoded_gender)
-              state = st.selectbox("State", state_label_list,index=default_encoded_state)
-              county = st.selectbox("County", county_label_list,index=default_encoded_county)
-              renal_disease_indicator = st.selectbox("Do you have Renal Disease?", ['Yes','No'],index=default_encoded_renal_disease_indicator)
-              part_a_month = st.slider('Month number of Part A Coverage', 0,12,default_encoded_part_a_month)
-              part_b_month = st.slider('Month number of Part B Coverage', 0,12,default_encoded_part_b_month)
-              options = ['Alzheimer','Heartfailure', 'KidneyDisease', 'Cancer', 'ObstrPulmonary','Depression','Diabetes','IschemicHeart','Osteoporasis','rheumatoidarthritis','stroke']
-              selected_diseases = st.multiselect('Please select the chronic condition you have', options,default=default_encoded_selected_diseases)
-              patient_submitted = st.form_submit_button("Submit")
+            age = st.selectbox('Age', age_label_list, index=default_encoded_age)
+            race = st.selectbox('Race', race_label_list, index=default_encoded_race)
+            gender = st.selectbox("Gender", ["Male", "Female"],index=default_encoded_gender)
+            state = st.selectbox("State", state_label_list,index=default_encoded_state)
+            county = st.selectbox("County", county_label_list,index=default_encoded_county)
+            renal_disease_indicator = st.selectbox("Do you have Renal Disease?", ['Yes','No'],index=default_encoded_renal_disease_indicator)
+            part_a_month = st.slider('Month number of Part A Coverage', 0,12,default_encoded_part_a_month)
+            part_b_month = st.slider('Month number of Part B Coverage', 0,12,default_encoded_part_b_month)
+            options = ['Alzheimer','Heartfailure', 'KidneyDisease', 'Cancer', 'ObstrPulmonary','Depression','Diabetes','IschemicHeart','Osteoporasis','rheumatoidarthritis','stroke']
+            selected_diseases = st.multiselect('Please select the chronic condition you have', options,default=default_encoded_selected_diseases)
+            patient_submitted = st.form_submit_button("Submit")
         
      
 
@@ -453,6 +453,7 @@ elif st.session_state.page == "Fraud":
                 diagnosis_code = st.selectbox(f"Diagnosis code {i + 1}",diagnosis_code_label_list[i])
                 if(diagnosis_code):
                   diagnosis_codes.append(diagnosis_code)
+            claim_submitted = st.form_submit_button("Submit")
         elif(in_hospital=="Outpatient"):
             claim_days = st.number_input("Duration of the Claim (in days)", min_value=0, value=0)
             amount_reimbursed = st.number_input("Amount Reimbursed", min_value=0, value=0)
@@ -465,8 +466,9 @@ elif st.session_state.page == "Fraud":
                 diagnosis_code = st.selectbox(f"Diagnosis code {i + 1}",diagnosis_label_list,index=default_index_diagnosis)
                 if(diagnosis_code):
                   diagnosis_codes.append(diagnosis_code)
+            claim_submitted = st.form_submit_button("Submit")
 
-        claim_submitted = st.form_submit_button("Submit")
+        
     if(in_hospital=="Inpatient"):
         encoded_attending_physician = loaded_mapping_datas["AttendingPhysician"][attending_physician]
         encoded_operating_physician = loaded_mapping_datas["OperatingPhysician"][operating_physician]
