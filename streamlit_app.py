@@ -244,8 +244,9 @@ if st.session_state.page == "Benificiary":
         if patient_submitted:
           xgb_model = XGBClassifier()
           xgb_model.load_model("claim_predictor_final.json")
-          y_pred = xgb_model.predict(X_test)
-          if y_pred == [0]:
+          y_pred = xgb_model.predict(X_test)[:1]
+          st.write(f"The predicted probability of receiving the Annual Reimbursement Amount is: {y_pred[0] * 100:.2f}%")
+          if y_pred[0] == 1:
               st.success("There is a 76% chance that this patient will receive the Annual Reimbursement Amount.")
           else:
               st.error("There is a 76% chance that this patient will NOT receive the Annual Reimbursement Amount.")
