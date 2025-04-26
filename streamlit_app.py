@@ -415,7 +415,7 @@ elif st.session_state.page == "Fraud":
         other_physician = "Unknown"
         diagnosis_codes = ["655",'5921','28521','5939','5989']
         provider = 'PRV54936'
-        st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
+        # st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
          
         default_encoded_attending_physician=2228
         default_encoded_operating_physician=559
@@ -432,7 +432,8 @@ elif st.session_state.page == "Fraud":
         other_physician = "PHY396473"
         diagnosis_codes = ["7237"]
         provider = 'PRV56011'
-        st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
+        # st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
+        
         default_encoded_attending_physician=61293
         default_encoded_operating_physician=28532
         default_encoded_operating_physician=30983
