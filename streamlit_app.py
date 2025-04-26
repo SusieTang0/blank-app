@@ -287,6 +287,53 @@ elif st.session_state.page == "Fraud":
     else:
         default_index_diagnosis = 0
 
+
+    with open('all_label_mappings.json', 'r') as json_file:
+        loaded_mapping_datas= json.load(json_file)
+    reversed_mapping_attending_physician = {v: k for k, v in loaded_mapping_datas["AttendingPhysician"].items()}
+    attending_physician_label_list = list(reversed_mapping_attending_physician.values())
+
+    reversed_mapping_operating_physician = {v: k for k, v in loaded_mapping_datas["OperatingPhysician"].items()}
+    operating_physician_label_list = list(reversed_mapping_operating_physician.values())
+
+    reversed_mapping_other_physician = {v: k for k, v in loaded_mapping_datas["OtherPhysician"].items()}
+    other_physician_label_list = list(reversed_mapping_other_physician.values())
+
+    reversed_mapping_provider_inpatient= {v: k for k, v in loaded_mapping_datas["Provider"].items()}
+    provider_inpatient_label_list = list(reversed_mapping_provider_inpatient.values())
+
+    diagnosis_code_label_list = []
+    reversed_mapping_diagnosis_code_1= {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_1"].items()}
+    diagnosis_code_1_label_list = list(reversed_mapping_diagnosis_code_1.values())
+
+    reversed_mapping_diagnosis_code_2= {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_2"].items()}
+    diagnosis_code_2_label_list = list(reversed_mapping_diagnosis_code_2.values())
+
+    reversed_mapping_diagnosis_code_3 = {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_3"].items()}
+    diagnosis_code_3_label_list = list(reversed_mapping_diagnosis_code_3.values())
+
+    reversed_mapping_diagnosis_code_4 = {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_4"].items()}
+    diagnosis_code_4_label_list = list(reversed_mapping_diagnosis_code_4.values())
+
+    reversed_mapping_diagnosis_code_5 = {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_5"].items()}
+    diagnosis_code_5_label_list = list(reversed_mapping_diagnosis_code_5.values())
+
+    reversed_mapping_diagnosis_code_6 = {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_6"].items()}
+    diagnosis_code_6_label_list = list(reversed_mapping_diagnosis_code_6.values())
+
+    reversed_mapping_diagnosis_code_7 = {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_7"].items()}
+    diagnosis_code_7_label_list = list(reversed_mapping_diagnosis_code_7.values())
+
+    reversed_mapping_diagnosis_code_8 = {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_8"].items()}
+    diagnosis_code_8_label_list = list(reversed_mapping_diagnosis_code_8.values())
+
+    reversed_mapping_diagnosis_code_9 = {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_9"].items()}
+    diagnosis_code_9_label_list = list(reversed_mapping_diagnosis_code_9.values())
+
+    reversed_mapping_diagnosis_code_10 = {v: k for k, v in loaded_mapping_datas["ClmDiagnosisCode_10"].items()}
+    diagnosis_code_10_label_list = list(reversed_mapping_diagnosis_code_10.values())
+
+    diagnosis_code_label_list = [diagnosis_code_1_label_list,diagnosis_code_2_label_list,diagnosis_code_3_label_list,diagnosis_code_4_label_list,diagnosis_code_5_label_list,diagnosis_code_6_label_list,diagnosis_code_7_label_list,diagnosis_code_8_label_list,diagnosis_code_9_label_list,diagnosis_code_10_label_list]
   
     if 'input_count' not in st.session_state:
         st.session_state.input_count = 1
@@ -342,17 +389,30 @@ elif st.session_state.page == "Fraud":
         provider = 'PRV56011'
         st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
     with st.form(key='claim_form'):
-        claim_days = st.number_input("Duration of the Claim (in days)", min_value=0, value=0)
-        amount_reimbursed = st.number_input("Amount Reimbursed", min_value=0, value=0)
-        provider = st.selectbox("Provider", provider_label_list)
-        attending_physician = st.selectbox("Attending Physician", physician_label_list,index=default_index_physician)
-        operating_physician = st.selectbox("Operating Physician", physician_label_list,index=default_index_physician)
-        other_physician = st.selectbox("Other Physician", physician_label_list,index=default_index_physician)
-        diagnosis_codes = [] 
-        for i in range(st.session_state.input_count):
-            diagnosis_code = st.selectbox(f"Diagnosis code {i + 1}",diagnosis_label_list,index=default_index_diagnosis)
-            if(diagnosis_code):
-              diagnosis_codes.append(diagnosis_code)
+        if(in_hospital=="Inpatient"):
+            claim_days = st.number_input("Duration of the Claim (in days)", min_value=0, value=0)
+            amount_reimbursed = st.number_input("Amount Reimbursed", min_value=0, value=0)
+            provider = st.selectbox("Provider", provider_inpatient_label_list)
+            attending_physician = st.selectbox("Attending Physician", attending_physician_label_list)
+            operating_physician = st.selectbox("Operating Physician", operating_physician_label_list)
+            other_physician = st.selectbox("Other Physician", other_physician_label_list)
+            diagnosis_codes = [] 
+            for i in range(st.session_state.input_count):
+                diagnosis_code = st.selectbox(f"Diagnosis code {i + 1}",diagnosis_code_label_list[i])
+                if(diagnosis_code):
+                  diagnosis_codes.append(diagnosis_code)
+        elif(in_hospital=="Outpatient"):
+            claim_days = st.number_input("Duration of the Claim (in days)", min_value=0, value=0)
+            amount_reimbursed = st.number_input("Amount Reimbursed", min_value=0, value=0)
+            provider = st.selectbox("Provider", provider_label_list)
+            attending_physician = st.selectbox("Attending Physician", physician_label_list,index=default_index_physician)
+            operating_physician = st.selectbox("Operating Physician", physician_label_list,index=default_index_physician)
+            other_physician = st.selectbox("Other Physician", physician_label_list,index=default_index_physician)
+            diagnosis_codes = [] 
+            for i in range(st.session_state.input_count):
+                diagnosis_code = st.selectbox(f"Diagnosis code {i + 1}",diagnosis_label_list,index=default_index_diagnosis)
+                if(diagnosis_code):
+                  diagnosis_codes.append(diagnosis_code)
 
         claim_submitted = st.form_submit_button("Submit")
 
