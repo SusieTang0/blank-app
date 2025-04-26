@@ -247,9 +247,9 @@ if st.session_state.page == "Benificiary":
           y_pred = xgb_model.predict(X_test)[:1]
           st.write(f"The predicted probability of receiving the Annual Reimbursement Amount is: {y_pred[0] * 100:.2f}%")
           if y_pred[0] == 1:
-              st.success("There is a 76% chance that this patient will receive the Annual Reimbursement Amount.")
+              st.success("This patient will **receive** the Annual Reimbursement Amount.")
           else:
-              st.error("There is a 76% chance that this patient will NOT receive the Annual Reimbursement Amount.")
+              st.error("This patient will **NOT receive** the Annual Reimbursement Amount.")
     
 
 elif st.session_state.page == "Fraud":
@@ -415,32 +415,58 @@ elif st.session_state.page == "Fraud":
                   diagnosis_codes.append(diagnosis_code)
 
         claim_submitted = st.form_submit_button("Submit")
+    if(in_hospital=="Inpatient"):
+        encoded_attending_physician = loaded_mapping_datas["AttendingPhysician"][attending_physician]
+        encoded_operating_physician = loaded_mapping_datas["OperatingPhysician"][operating_physician]
+        encoded_other_physician = loaded_mapping_datas["OtherPhysician"][other_physician]
+        encoded_provider = loaded_mapping_datas["Provider"][provider]
 
-    encoded_attending_physician = loaded_mapping_physician[attending_physician]
-    encoded_operating_physician = loaded_mapping_physician[operating_physician]
-    encoded_other_physician = loaded_mapping_physician[other_physician]
-    encoded_provider = loaded_mapping_provider[provider]
+        encoded_diagnosis_codes = [loaded_mapping_diagnosis.get("NaN")] * 10
+        new_encode = len(diagnosis_label_list) + 1 
+        for i in range(min(len(diagnosis_codes), 10)):
+            code = loaded_mapping_datas[f"ClmDiagnosisCode_{i+1}"].get(diagnosis_codes[i], new_encode)
+            if code:  
+              encoded_diagnosis_codes[i] = code  
+            else:
+              encoded_diagnosis_codes[i] = new_encode 
+              new_encode += 1
 
-    encoded_diagnosis_codes = [loaded_mapping_diagnosis.get("NaN")] * 10
-    new_encode = len(diagnosis_label_list) + 1 
-    for i in range(min(len(diagnosis_codes), 10)):
-        code = loaded_mapping_diagnosis.get(diagnosis_codes[i], new_encode)
-        if code:  
-          encoded_diagnosis_codes[i] = code  
-        else:
-          encoded_diagnosis_codes[i] = new_encode 
-          new_encode += 1
+        encoded_diagnosis_code_1 = encoded_diagnosis_codes[0]
+        encoded_diagnosis_code_2 = encoded_diagnosis_codes[1]
+        encoded_diagnosis_code_3 = encoded_diagnosis_codes[2]
+        encoded_diagnosis_code_4 = encoded_diagnosis_codes[3]
+        encoded_diagnosis_code_5 = encoded_diagnosis_codes[4]
+        encoded_diagnosis_code_6 = encoded_diagnosis_codes[5]
+        encoded_diagnosis_code_7 = encoded_diagnosis_codes[6]
+        encoded_diagnosis_code_8 = encoded_diagnosis_codes[7]
+        encoded_diagnosis_code_9 = encoded_diagnosis_codes[8]
+        encoded_diagnosis_code_10 = encoded_diagnosis_codes[9]
+    elif(in_hospital=="Outpatient"):
+        encoded_attending_physician = loaded_mapping_physician[attending_physician]
+        encoded_operating_physician = loaded_mapping_physician[operating_physician]
+        encoded_other_physician = loaded_mapping_physician[other_physician]
+        encoded_provider = loaded_mapping_provider[provider]
 
-    encoded_diagnosis_code_1 = encoded_diagnosis_codes[0]
-    encoded_diagnosis_code_2 = encoded_diagnosis_codes[1]
-    encoded_diagnosis_code_3 = encoded_diagnosis_codes[2]
-    encoded_diagnosis_code_4 = encoded_diagnosis_codes[3]
-    encoded_diagnosis_code_5 = encoded_diagnosis_codes[4]
-    encoded_diagnosis_code_6 = encoded_diagnosis_codes[5]
-    encoded_diagnosis_code_7 = encoded_diagnosis_codes[6]
-    encoded_diagnosis_code_8 = encoded_diagnosis_codes[7]
-    encoded_diagnosis_code_9 = encoded_diagnosis_codes[8]
-    encoded_diagnosis_code_10 = encoded_diagnosis_codes[9]
+        encoded_diagnosis_codes = [loaded_mapping_diagnosis.get("NaN")] * 10
+        new_encode = len(diagnosis_label_list) + 1 
+        for i in range(min(len(diagnosis_codes), 10)):
+            code = loaded_mapping_diagnosis.get(diagnosis_codes[i], new_encode)
+            if code:  
+              encoded_diagnosis_codes[i] = code  
+            else:
+              encoded_diagnosis_codes[i] = new_encode 
+              new_encode += 1
+
+        encoded_diagnosis_code_1 = encoded_diagnosis_codes[0]
+        encoded_diagnosis_code_2 = encoded_diagnosis_codes[1]
+        encoded_diagnosis_code_3 = encoded_diagnosis_codes[2]
+        encoded_diagnosis_code_4 = encoded_diagnosis_codes[3]
+        encoded_diagnosis_code_5 = encoded_diagnosis_codes[4]
+        encoded_diagnosis_code_6 = encoded_diagnosis_codes[5]
+        encoded_diagnosis_code_7 = encoded_diagnosis_codes[6]
+        encoded_diagnosis_code_8 = encoded_diagnosis_codes[7]
+        encoded_diagnosis_code_9 = encoded_diagnosis_codes[8]
+        encoded_diagnosis_code_10 = encoded_diagnosis_codes[9]
 
     if(in_hospital == "Outpatient"):
         
