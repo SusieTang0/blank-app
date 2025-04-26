@@ -79,7 +79,7 @@ if st.session_state.page == "Benificiary":
     county_label_list = list(reversed_mapping_county.values())
 
     gender_encode_mapping = {'Male':1,'Female':2}
-    default_encoded_selected_diseases: list[int]=[0] * 10
+    default_encoded_selected_diseases: list[str]=[0] * 10
     default_encoded_age=0
     default_encoded_race = 0
     default_encoded_gender = 0
@@ -88,7 +88,6 @@ if st.session_state.page == "Benificiary":
     default_encoded_renal_disease_indicator = 0
     default_encoded_part_a_month = 12
     default_encoded_part_b_month = 12
-    default_encoded_selected_diseases=[0,0,0,0,0,0,0,0,0,0]
     charlson_index = 0  
     sample = st.selectbox('Choose the sample you want to use:', ['No sample','Sample 1','Sample 2'], index=0)
     if(sample == 'Sample 1'):
@@ -397,11 +396,10 @@ elif st.session_state.page == "Fraud":
                 index=0, 
                 horizontal=True 
             )
-    default_encoded_diagnosis_codes: list[int]=[0] * 10
+    default_encoded_diagnosis_codes: list[str]=[""] * 10
     default_encoded_attending_physician=0
     default_encoded_operating_physician=0
     default_encoded_operating_physician=0
-    default_encoded_diagnosis_codes=[0,0,0,0,0,0,0,0,0,0]
     default_claim_days=0
     default_encoded_provider=0
     default_amount_reimbursed=0
@@ -429,7 +427,7 @@ elif st.session_state.page == "Fraud":
         attending_physician = "PHY412904"
         operating_physician = "Unknown"
         other_physician = "PHY396473"
-        diagnosis_codes = ["7237"]
+        diagnosis_codes = [7237]
         provider = 'PRV56011'
         # st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
         
