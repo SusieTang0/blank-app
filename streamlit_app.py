@@ -427,7 +427,7 @@ elif st.session_state.page == "Fraud":
               if y_pred[0] == 1:
                   st.error(f"There is a {y_pred_prob[0] * 100:.2f}% chance that the provider in this claim is **fraudulent**.")
               else:
-                  st.success(f"There is a {y_pred_prob[0] * 100:.2f}% chance that the provider in this claim is **not fraudulent**.")
+                  st.success(f"There is a {(100-y_pred_prob[0] * 100):.2f}% chance that the provider in this claim is **fraudulent**.")
 
     elif(in_hospital == "Inpatient"):
         X_test = pd.DataFrame({
