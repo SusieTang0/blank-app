@@ -152,8 +152,6 @@ if st.session_state.page == "Benificiary":
               part_b_month = st.slider('Month number of Part B Coverage', 0,12,default_encoded_part_b_month)
               options = ['Alzheimer','Heartfailure', 'KidneyDisease', 'Cancer', 'ObstrPulmonary','Depression','Diabetes','IschemicHeart','Osteoporasis','rheumatoidarthritis','stroke']
               selected_diseases = st.multiselect('Please select the chronic condition you have', options,default=default_encoded_selected_diseases)
-              
-        
               patient_submitted = st.form_submit_button("Submit")
         
      
