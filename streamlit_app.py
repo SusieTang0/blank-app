@@ -79,7 +79,16 @@ if st.session_state.page == "Benificiary":
     county_label_list = list(reversed_mapping_county.values())
 
     gender_encode_mapping = {'Male':1,'Female':2}
-    
+    default_encoded_selected_diseases: list[int]=[0] * 10
+    default_encoded_age=0
+    default_encoded_gender = 0
+    default_encoded_state =0
+    default_encoded_county = 0
+    default_encoded_renal_disease_indicator = 0
+    default_encoded_part_a_month = 12
+    default_encoded_part_b_month = 12
+    default_encoded_selected_diseases=[0,0,0,0,0,0,0,0,0,0]
+    charlson_index = 0  
     sample = st.selectbox('Choose the sample you want to use:', ['No sample','Sample 1','Sample 2'], index=0)
     if(sample == 'Sample 1'):
         age = "65-69"
@@ -91,8 +100,18 @@ if st.session_state.page == "Benificiary":
         part_a_month = 12
         part_b_month = 12
         selected_diseases = ['Alzheimer', 'KidneyDisease', 'Depression','Diabetes','IschemicHeart','rheumatoidarthritis','stroke']
+        # st.write(f"Sample paitent info:\r\rAge: {age} - Race:{race} - Gender:{gender}\r\rState: {state} - County:{county}\r\rHave Renal Disease:{renal_disease_indicator}\r\rMonth number of Part A Coverage:{part_a_month}\r\rMonth number of Part B Coverage:{part_b_month}\r\rDisease:{selected_diseases}\r\rCharlson Index:{charlson_index}") 
+
+        default_encoded_age=3
+        default_encoded_race = 0
+        default_encoded_gender = 1
+        default_encoded_state = 39 
+        default_encoded_county = 230
+        default_encoded_renal_disease_indicator = 0
+        default_encoded_part_a_month = 12
+        default_encoded_part_b_month = 12
+        default_encoded_selected_diseases=[1,0,1,0,0,1,1,1,0,1,1,1]
         charlson_index = 7
-        st.write(f"Sample paitent info:\r\rAge: {age} - Race:{race} - Gender:{gender}\r\rState: {state} - County:{county}\r\rHave Renal Disease:{renal_disease_indicator}\r\rMonth number of Part A Coverage:{part_a_month}\r\rMonth number of Part B Coverage:{part_b_month}\r\rDisease:{selected_diseases}\r\rCharlson Index:{charlson_index}") 
     elif(sample == 'Sample 2'):
         age = "90-94"
         race = "Asian"
@@ -104,8 +123,18 @@ if st.session_state.page == "Benificiary":
         part_b_month = 12
         selected_diseases = ['Alzheimer','Heartfailure', 'KidneyDisease', 'ObstrPulmonary','Diabetes','IschemicHeart','Osteoporasis','stroke']
         charlson_index = 8
-        st.write(f"Sample paitent info:\r\rAge: {age} - Race:{race} - Gender:{gender}\r\rState: {state} - County:{county}\r\rHave Renal Disease:{renal_disease_indicator}\r\rMonth number of Part A Coverage:{part_a_month}\r\rMonth number of Part B Coverage:{part_b_month}\r\rDisease:{selected_diseases}\r\rCharlson Index:{charlson_index}")
-    
+        # st.write(f"Sample paitent info:\r\rAge: {age} - Race:{race} - Gender:{gender}\r\rState: {state} - County:{county}\r\rHave Renal Disease:{renal_disease_indicator}\r\rMonth number of Part A Coverage:{part_a_month}\r\rMonth number of Part B Coverage:{part_b_month}\r\rDisease:{selected_diseases}\r\rCharlson Index:{charlson_index}")
+        
+        default_encoded_age=8
+        default_encoded_race = 1
+        default_encoded_gender = 2
+        default_encoded_state = 34 
+        default_encoded_county = 400
+        default_encoded_renal_disease_indicator = 0
+        default_encoded_part_a_month = 12
+        default_encoded_part_b_month = 12
+        default_encoded_selected_diseases=[1,1,1,0,1,0,1,0,1,1,1,0,1]
+        charlson_index = 8   
     # create two columns
     left_col, right_col = st.columns(2)
     with left_col:
@@ -113,21 +142,21 @@ if st.session_state.page == "Benificiary":
         st.write("Please enter patient information here")
        
         with st.form(key='patient_form'):
-              age = st.selectbox('Age', age_label_list, index=default_index_age)
-              race = st.selectbox('Race', race_label_list, index=default_index_race)
-              gender = st.selectbox("Gender", ["Male", "Female"])
-              state = st.selectbox("State", state_label_list)
-              county = st.selectbox("County", county_label_list)
-              renal_disease_indicator = st.selectbox("Do you have Renal Disease?", ['Yes','No'])
-              part_a_month = st.slider('Month number of Part A Coverage', 0,12,12)
-              part_b_month = st.slider('Month number of Part B Coverage', 0,12,12)
+              age = st.selectbox('Age', age_label_list, index=default_encoded_age)
+              race = st.selectbox('Race', race_label_list, index=default_encoded_race)
+              gender = st.selectbox("Gender", ["Male", "Female"],index=default_encoded_gender)
+              state = st.selectbox("State", state_label_list,index=default_encoded_state)
+              county = st.selectbox("County", county_label_list,index=default_encoded_county)
+              renal_disease_indicator = st.selectbox("Do you have Renal Disease?", ['Yes','No'],index=default_encoded_renal_disease_indicator)
+              part_a_month = st.slider('Month number of Part A Coverage', 0,12,default_encoded_part_a_month)
+              part_b_month = st.slider('Month number of Part B Coverage', 0,12,default_encoded_part_b_month)
               options = ['Alzheimer','Heartfailure', 'KidneyDisease', 'Cancer', 'ObstrPulmonary','Depression','Diabetes','IschemicHeart','Osteoporasis','rheumatoidarthritis','stroke']
-              selected_diseases = st.multiselect('Please select the chronic condition you have', options)
-              charlson_index = st.slider('Charlson Index', 0,37,1)
+              selected_diseases = st.multiselect('Please select the chronic condition you have', options,default=default_encoded_selected_diseases)
+              
         
               patient_submitted = st.form_submit_button("Submit")
         
-        
+     
 
     with right_col:
         st.subheader("Prediction")
@@ -369,6 +398,14 @@ elif st.session_state.page == "Fraud":
                 index=0, 
                 horizontal=True 
             )
+    default_encoded_diagnosis_codes: list[int]=[0] * 10
+    default_encoded_attending_physician=0
+    default_encoded_operating_physician=0
+    default_encoded_operating_physician=0
+    default_encoded_diagnosis_codes=[0,0,0,0,0,0,0,0,0,0]
+    default_claim_days=0
+    default_encoded_provider=0
+    default_amount_reimbursed=0
     sample = st.selectbox('Choose the sample you want to use:', ['No sample','Sample 1','Sample 2'], index=0)
     if(sample == 'Sample 1'):
         claim_days = 1
@@ -379,6 +416,14 @@ elif st.session_state.page == "Fraud":
         diagnosis_codes = ["655",'5921','28521','5939','5989']
         provider = 'PRV54936'
         st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
+         
+        default_encoded_attending_physician=2228
+        default_encoded_operating_physician=559
+        default_encoded_operating_physician=2368
+        default_encoded_diagnosis_codes=[1230,338,1193,1213,2203,2186,2142,2093,1950,852]
+        default_claim_days=1
+        default_encoded_provider=972
+        default_amount_reimbursed=8000
     elif(sample == 'Sample 2'):
         claim_days = 12
         amount_reimbursed = 500
@@ -388,6 +433,13 @@ elif st.session_state.page == "Fraud":
         diagnosis_codes = ["7237"]
         provider = 'PRV56011'
         st.write(f"Sample claim info:\r\rDays for claim duration:{claim_days}\r\rAmount Reimbursed: {amount_reimbursed}\r\rAttending Physician:{attending_physician}\r\rOperating Physician:{operating_physician}\r\rOther Physician: {other_physician}\r\rDiagnosis code:{diagnosis_codes}\r\rProvider:{provider}") 
+        default_encoded_attending_physician=61293
+        default_encoded_operating_physician=28532
+        default_encoded_operating_physician=30983
+        default_encoded_diagnosis_codes=[6411,4475,3918,3455,2988,2591,2287,1962,1622,431]
+        default_claim_days=1
+        default_encoded_provider=3726
+        default_amount_reimbursed=500
     with st.form(key='claim_form'):
         if(in_hospital=="Inpatient"):
             claim_days = st.number_input("Duration of the Claim (in days)", min_value=0, value=0)
@@ -513,7 +565,7 @@ elif st.session_state.page == "Fraud":
               if y_pred[0] == 1:
                   st.error(f"There is a {y_pred_prob[0] * 100:.2f}% chance that the provider in this claim is **fraudulent**.")
               else:
-                  st.success(f"There is a {(100-y_pred_prob[0] * 100):.2f}% chance that the provider in this claim is **fraudulent**.")
+                  st.success(f"There is a {(100-y_pred_prob[0] * 100):.2f}% chance that the provider in this claim is **NOT fraudulent**.")
 
     elif(in_hospital == "Inpatient"):
         X_test = pd.DataFrame({
@@ -529,7 +581,7 @@ elif st.session_state.page == "Fraud":
             'DiagnosisCode_group_String_Label_Encoded':[0],
             'TimeforCLAIM':[claim_days],
             'Provider_Label_Encoded':[encoded_provider],
-            'InscClaimAmtReimbursed':[0],
+            'InscClaimAmtReimbursed':[20],
         })
         if(sample == 'Sample 1'):
              X_test = pd.DataFrame({
@@ -545,7 +597,7 @@ elif st.session_state.page == "Fraud":
                 'DiagnosisCode_group_String_Label_Encoded':[0],
                 'TimeforCLAIM':[1],
                 'Provider_Label_Encoded':[972],
-                'InscClaimAmtReimbursed':[0],
+                'InscClaimAmtReimbursed':[8000],
             })
              
         if claim_submitted:
