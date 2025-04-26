@@ -81,6 +81,7 @@ if st.session_state.page == "Benificiary":
     gender_encode_mapping = {'Male':1,'Female':2}
     default_encoded_selected_diseases: list[int]=[0] * 10
     default_encoded_age=0
+    default_encoded_race = 0
     default_encoded_gender = 0
     default_encoded_state =0
     default_encoded_county = 0
