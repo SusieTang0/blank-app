@@ -192,12 +192,13 @@ if st.session_state.page == "Benificiary":
         charlson_index=0
         for disease in selected_diseases:
             encoded_ChronicCond_mapping[disease] = 1
-            if(disease=="KidneyDisease" or disease=="Cancer" ):
-              charlson_index+=2
-            elif(disease=="Osteoporasis" or disease=="Depression" ):
-              charlson_index+=0
-            else:
-              charlson_index+=1  
+            disease_scores = {
+                "KidneyDisease": 2,
+                "Cancer": 2,
+                "Osteoporosis": 0,
+                "Depression": 0,
+            }
+            charlson_index += disease_scores.get(disease, 1)
                 
         encoded_alzheimer = encoded_ChronicCond_mapping['Alzheimer']
         encoded_heartfailure = encoded_ChronicCond_mapping['Heartfailure']
