@@ -453,7 +453,6 @@ elif st.session_state.page == "Fraud":
                 diagnosis_code = st.selectbox(f"Diagnosis code {i + 1}",diagnosis_code_label_list[i])
                 if(diagnosis_code):
                   diagnosis_codes.append(diagnosis_code)
-            claim_submitted = st.form_submit_button("Submit")
         elif(in_hospital=="Outpatient"):
             claim_days = st.number_input("Duration of the Claim (in days)", min_value=0, value=0)
             amount_reimbursed = st.number_input("Amount Reimbursed", min_value=0, value=0)
